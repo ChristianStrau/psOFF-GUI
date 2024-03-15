@@ -1,0 +1,20 @@
+﻿<Window x:Class="psOFF_GUI.Window1"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:psOFF_GUI"
+        mc:Ignorable="d"
+        Title="Window1" Height="450" Width="800">
+    <Grid>
+        <!-- Left half with image -->
+        <Image x:Name="iconImage" Margin="20" HorizontalAlignment="Left" Stretch="UniformToFill"/>
+
+        <!-- Right half with file path -->
+        <StackPanel Margin="20" HorizontalAlignment="Right">
+            <TextBlock Text="File Path:" Foreground="White" Margin="0,0,0,10"/>
+            <TextBox Name="filePathTextBox" Background="#8e44ad" Foreground="White" BorderThickness="0" Padding="10" Width="300" Margin="0,0,0,10"/>
+            <TextBlock x:Name="filePathTest" Foreground="Red"/>
+        </StackPanel>
+    </Grid>
+</Window>
