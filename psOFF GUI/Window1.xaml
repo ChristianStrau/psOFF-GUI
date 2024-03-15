@@ -8,13 +8,7 @@
         Title="Window1" Height="450" Width="800">
     <Grid>
         <!-- Left half with image -->
-        <Image x:Name="iconImage" Margin="20" HorizontalAlignment="Left" Stretch="UniformToFill"/>
-
-        <!-- Right half with file path -->
-        <StackPanel Margin="20" HorizontalAlignment="Right">
-            <TextBlock Text="File Path:" Foreground="White" Margin="0,0,0,10"/>
-            <TextBox Name="filePathTextBox" Background="#8e44ad" Foreground="White" BorderThickness="0" Padding="10" Width="300" Margin="0,0,0,10"/>
-            <TextBlock x:Name="filePathTest" Foreground="Red"/>
-        </StackPanel>
+        <Image x:Name="iconImage" Margin="20" HorizontalAlignment="Left" Stretch="UniformToFill" Height="200" Width="200"/>
+        <TextBlock Name = "testText" Foreground="Red" Margin="50"></TextBlock>
     </Grid>
 </Window>
