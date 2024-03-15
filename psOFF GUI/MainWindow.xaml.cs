@@ -8,26 +8,21 @@ namespace psOFF_GUI
 {
     public partial class MainWindow : Window
     {
-
-   
-        
-        
-
         public MainWindow()
         {
-            string currentDir = System.IO.Directory.GetCurrentDirectory();
-            string currentDirExe = currentDir + "/emulator.exe";
-
-
             InitializeComponent();
-          
+
+            string currentDir = System.IO.Directory.GetCurrentDirectory();
+            if (!checkForEmulator(currentDir))
+            {
+                MessageBox.Show("Please install the Emulator and move it to the dictonary", "Missing Emulator");
+            }
+
         }
-
-
-
 
         public void MainGrid_Drop(object sender, DragEventArgs e)
         {
+            
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
                 string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
@@ -58,7 +53,11 @@ namespace psOFF_GUI
             // Close the current window if needed
             this.Close();
         }
-
+        private bool checkForEmulator(string currentDir)
+        {
+            string emuPath = System.IO.Path.Combine(currentDir, "emulator.exe");
+            return File.Exists(emuPath);
+        }
        
     }
 }

@@ -7,7 +7,9 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid AllowDrop="True" Drop="MainGrid_Drop">
+
         <Grid>
+
             <Border CornerRadius="15" BorderBrush="#8e44ad" BorderThickness="5" Margin="50">
                 <Border.Background>
                     <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
@@ -17,9 +19,10 @@
                 </Border.Background>
 
                 <TextBlock Name="Pfad" Foreground="Red" Margin="50"></TextBlock>
+
             </Border>
         </Grid>
-        <ContentControl x:Name="contentControl"/>
         <TextBlock Text="Drop .bin or .elf files here" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" FontWeight="Bold" FontSize="16"/>
     </Grid>
+
 </Window>
