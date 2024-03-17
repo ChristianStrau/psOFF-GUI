@@ -10,5 +10,19 @@
         <!-- Left half with image -->
         <Image x:Name="iconImage" Margin="20" HorizontalAlignment="Left" Stretch="UniformToFill" Height="200" Width="200"/>
         <TextBlock Name = "testText" Foreground="Red" Margin="50"></TextBlock>
+        <Grid>
+            <Button Click="Button_Click" Height="100" Width="150" Margin="583,133,67,201">
+                <TextBlock Text="Play Now">
+
+                </TextBlock>
+            </Button>
+
+            <Button Click="Button_Click_1" Height="100" Width="150" Margin="583,256,67,78">
+                <TextBlock Text="Add Shortcut">
+
+                </TextBlock>
+            </Button>
+        </Grid>
+        
     </Grid>
 </Window>

@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.IO;
+using System.Diagnostics;
 
 namespace psOFF_GUI
 {
@@ -61,5 +62,52 @@ namespace psOFF_GUI
                 }
             }
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            RunEmulator(filePath);
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+
+        public static void RunEmulator(string filePath)
+        {
+            try
+            {
+                // Create process start info
+                ProcessStartInfo psi = new ProcessStartInfo();
+                psi.FileName = "cmd.exe";
+                psi.RedirectStandardInput = true;
+                psi.UseShellExecute = false;
+                psi.CreateNoWindow = false;
+
+                // Start the process
+                Process process = Process.Start(psi);
+
+                // Write command to cmd
+                if (process != null)
+                {
+                    process.StandardInput.WriteLine(".\\emulator.exe --file=\"" + filePath + "\"");
+                    process.StandardInput.Flush();
+                    process.StandardInput.Close();
+                    process.WaitForExit();
+                }
+                else
+                {
+                    Console.WriteLine("Failed to start cmd process.");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("An error occurred: " + ex.Message);
+            }
+        }
     }
-}
+    }
+
+
+
