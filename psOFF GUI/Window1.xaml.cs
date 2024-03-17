@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.IO;
 using System.Diagnostics;
+using IWshRuntimeLibrary;
 
 namespace psOFF_GUI
 {
@@ -44,7 +45,7 @@ namespace psOFF_GUI
                     string imagePath = System.IO.Path.Combine(directoryPath, "sce_sys", "icon0.png");
                     testText.Text = imagePath; 
                     // Set the source of the Image
-                    if (File.Exists(imagePath))
+                    if (System.IO.File.Exists(imagePath))
                     {
                         iconImage.Source = new BitmapImage(new Uri(imagePath));
                     }
@@ -70,7 +71,7 @@ namespace psOFF_GUI
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-
+            ShortcutCreator.CreateShortcut("test.lnk", filePath);
         }
 
 
@@ -106,8 +107,44 @@ namespace psOFF_GUI
                 Console.WriteLine("An error occurred: " + ex.Message);
             }
         }
+
+        
     }
+
+
+    public class ShortcutCreator
+    {
+        public static void CreateShortcut(string shortcutName, string filePath)
+        {
+            try
+            {
+                // Get the desktop folder path
+                string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
+
+                // Create a WshShell object
+                WshShell shell = new WshShell();
+
+                // Create the shortcut object
+                IWshShortcut shortcut = (IWshShortcut)shell.CreateShortcut(System.IO.Path.Combine(desktopPath, shortcutName + ".lnk"));
+
+                // Set the target path and arguments for the shortcut
+                shortcut.TargetPath = "cmd.exe";
+                shortcut.Arguments = $"/k cd /d \"{Environment.CurrentDirectory}\" & .\\emulator.exe --file=\"{filePath}\"";
+
+                // Set the description for the shortcut
+                shortcut.Description = "Shortcut to run emulator with specified file";
+
+                // Save the shortcut
+                shortcut.Save();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("An error occurred while creating the shortcut: " + ex.Message);
+            }
+        }
     }
+
+}
 
 
 
