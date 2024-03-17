@@ -20,19 +20,20 @@ namespace psOFF_GUI
     public partial class Window1 : Window
     {
         private string filePath;
-        
+        private string imagePath;
         public Window1(string filePath)
         {
             InitializeComponent();
             // Set the filePath property
             this.filePath = filePath;
-
+            imagePath = SetImageSource();
             // Call the method to set the image source
             SetImageSource();
         }
 
-        private void SetImageSource()
+        private string SetImageSource() // Updated to return the image path
         {
+            string imagePath = null; // Initialize imagePath variable
             testText.Text = "0";
             // Check if filePath is not empty
             if (!string.IsNullOrEmpty(filePath))
@@ -42,8 +43,8 @@ namespace psOFF_GUI
                 {
                     // Construct the path to the image dynamically based on the provided file path
                     string directoryPath = System.IO.Path.GetDirectoryName(filePath);
-                    string imagePath = System.IO.Path.Combine(directoryPath, "sce_sys", "icon0.png");
-                    testText.Text = imagePath; 
+                    imagePath = System.IO.Path.Combine(directoryPath, "sce_sys", "icon0.png");
+                    testText.Text = imagePath;
                     // Set the source of the Image
                     if (System.IO.File.Exists(imagePath))
                     {
@@ -62,16 +63,25 @@ namespace psOFF_GUI
                     MessageBox.Show($"Error: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
+            return imagePath; // Return the imagePath
+
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+            private void Button_Click(object sender, RoutedEventArgs e)
         {
             RunEmulator(filePath);
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            ShortcutCreator.CreateShortcut("test.lnk", filePath);
+            if (!string.IsNullOrEmpty(imagePath)) // Check if imagePath is not null or empty
+            {
+                ShortcutCreator.CreateShortcut("test", filePath, imagePath); // Pass the imagePath to CreateShortcut method
+            }
+            else
+            {
+                MessageBox.Show("Image path is empty.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
 
@@ -114,7 +124,7 @@ namespace psOFF_GUI
 
     public class ShortcutCreator
     {
-        public static void CreateShortcut(string shortcutName, string filePath)
+        public static void CreateShortcut(string shortcutName, string filePath, string iconPath)
         {
             try
             {
@@ -130,7 +140,7 @@ namespace psOFF_GUI
                 // Set the target path and arguments for the shortcut
                 shortcut.TargetPath = "cmd.exe";
                 shortcut.Arguments = $"/k cd /d \"{Environment.CurrentDirectory}\" & .\\emulator.exe --file=\"{filePath}\"";
-
+                shortcut.IconLocation = iconPath;
                 // Set the description for the shortcut
                 shortcut.Description = "Shortcut to run emulator with specified file";
 
