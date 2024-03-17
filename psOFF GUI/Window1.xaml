@@ -5,24 +5,86 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:psOFF_GUI"
         mc:Ignorable="d"
-        Title="Window1" Height="450" Width="800">
-    <Grid>
-        <!-- Left half with image -->
-        <Image x:Name="iconImage" Margin="20" HorizontalAlignment="Left" Stretch="UniformToFill" Height="200" Width="200"/>
-        <TextBlock Name = "testText" Foreground="Red" Margin="50"></TextBlock>
-        <Grid>
-            <Button Click="Button_Click" Height="100" Width="150" Margin="583,133,67,201">
-                <TextBlock Text="Play Now">
+        Title="Window1" MinWidth="600" MinHeight="400">
+    <Grid Background="#333333">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
 
-                </TextBlock>
-            </Button>
-
-            <Button Click="Button_Click_1" Height="100" Width="150" Margin="583,256,67,78">
-                <TextBlock Text="Add Shortcut">
-
-                </TextBlock>
-            </Button>
+        <!-- Header -->
+        <Grid Background="#6E40E8">
+            <TextBlock Text="Header" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White"/>
         </Grid>
-        
+
+        <!-- Content Area -->
+        <Grid Grid.Row="1" Margin="20">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Left half with image -->
+            <Border Background="#60648F" Width="200" Height="200" Margin="0,0,20,0" CornerRadius="15">
+                <Image x:Name="iconImage" Stretch="UniformToFill"/>
+            </Border>
+
+            <!-- TextBlock -->
+            <TextBlock Name="testText" Foreground="White" Margin="20" Text="Your Text Here"/>
+
+            <!-- Buttons -->
+            <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left">
+                <!-- Play Now Button -->
+                <Button Click="Button_Click" Height="40" Width="150" Margin="0,0,0,10" Background="#5176E8" BorderThickness="0" Foreground="White" Content="Play Now" FontWeight="Bold" FontSize="14">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border Background="{TemplateBinding Background}" CornerRadius="10">
+                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Setter Property="Foreground" Value="White"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#4169E1"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                    <Button.Effect>
+                        <DropShadowEffect BlurRadius="5" Opacity="0.7"/>
+                    </Button.Effect>
+                </Button>
+                <!-- Add Shortcut Button -->
+                <Button Click="Button_Click_1" Height="40" Width="150" Margin="0,0,0,10" Background="#6E40E8" BorderThickness="0" Foreground="White" Content="Add Shortcut" FontWeight="Bold" FontSize="14">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border Background="{TemplateBinding Background}" CornerRadius="10">
+                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Setter Property="Foreground" Value="White"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#6A5ACD"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                    <Button.Effect>
+                        <DropShadowEffect BlurRadius="5" Opacity="0.7"/>
+                    </Button.Effect>
+                </Button>
+            </StackPanel>
+        </Grid>
     </Grid>
 </Window>
