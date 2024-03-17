@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.IO;
+using System.Diagnostics;
 
 namespace psOFF_GUI
 {
@@ -60,6 +61,19 @@ namespace psOFF_GUI
                     MessageBox.Show($"Error: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
+        }
+
+     
+
+        private void Play_Click(object sender, RoutedEventArgs e)
+        {
+            Process startGame = new Process();
+            startGame.StartInfo.FileName="cmd.exe";
+            startGame.StartInfo.CreateNoWindow = false;
+            startGame.StartInfo.RedirectStandardInput = true;
+            startGame.Start();
+            startGame.StandardInput.Write("./emulator.exe");
+
         }
     }
 }

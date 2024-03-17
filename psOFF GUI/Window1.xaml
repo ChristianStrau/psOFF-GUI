@@ -10,5 +10,16 @@
         <!-- Left half with image -->
         <Image x:Name="iconImage" Margin="20" HorizontalAlignment="Left" Stretch="UniformToFill" Height="200" Width="200"/>
         <TextBlock Name = "testText" Foreground="Red" Margin="50"></TextBlock>
+        <Button Click="Play_Click" Width="200" Name="Play" HorizontalAlignment="Left" Margin="572,160,0,160" BorderBrush="#FF3700FF">
+            <Button.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FFA000FF" Offset="0"/>
+                    <GradientStop Color="#FF5E60FF" Offset="1"/>
+                </LinearGradientBrush>
+            </Button.Background>
+            <TextBlock Text="Play!" FontSize="18" FontWeight="Bold">
+
+            </TextBlock>
+        </Button>
     </Grid>
 </Window>
