@@ -35,11 +35,9 @@ namespace psOFF_GUI
         private string SetImageSource() // Updated to return the image path
         {
             string imagePath = null; // Initialize imagePath variable
-            testText.Text = "0";
             // Check if filePath is not empty
             if (!string.IsNullOrEmpty(filePath))
             {
-                testText.Text = "1";
                 try
                 {
                     // Construct the path to the image dynamically based on the provided file path
@@ -59,7 +57,6 @@ namespace psOFF_GUI
                 }
                 catch (Exception ex)
                 {
-                    testText.Text = "2";
                     // Handle any exceptions
                     MessageBox.Show($"Error: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
@@ -68,17 +65,26 @@ namespace psOFF_GUI
 
         }
 
-            private void Button_Click(object sender, RoutedEventArgs e)
+        private void Button_Click(object sender, RoutedEventArgs e)
         {
-            RunEmulator(filePath);
+            string args = "";
+            if(inArgs.Text != "Enter arguments")
+            {
+                args = inArgs.Text;
+            }
+            RunEmulator(filePath, args);
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             if (!string.IsNullOrEmpty(imagePath)) // Check if imagePath is not null or empty
             {
-                testText.Text = imagePath;
-                ShortcutCreator.CreateShortcut("test", filePath, imagePath); // Pass the imagePath to CreateShortcut method
+                string args = "";
+                if (inArgs.Text != "Enter arguments")
+                {
+                    args = inArgs.Text;
+                }
+                ShortcutCreator.CreateShortcut("test", filePath, imagePath, args); // Pass the imagePath to CreateShortcut method
             }
             else
             {
@@ -87,7 +93,7 @@ namespace psOFF_GUI
         }
 
 
-        public static void RunEmulator(string filePath)
+        public static void RunEmulator(string filePath, string arguments)
         {
             try
             {
@@ -97,6 +103,7 @@ namespace psOFF_GUI
                 psi.RedirectStandardInput = true;
                 psi.UseShellExecute = false;
                 psi.CreateNoWindow = false;
+                psi.Arguments = arguments;
 
                 // Start the process
                 Process process = Process.Start(psi);
@@ -104,7 +111,7 @@ namespace psOFF_GUI
                 // Write command to cmd
                 if (process != null)
                 {
-                    process.StandardInput.WriteLine(".\\emulator.exe --file=\"" + filePath + "\"");
+                    process.StandardInput.WriteLine(".\\emulator.exe --file=\"" + filePath + "\"" + " " + arguments);
                     process.StandardInput.Flush();
                     process.StandardInput.Close();
                     process.WaitForExit();
@@ -120,13 +127,16 @@ namespace psOFF_GUI
             }
         }
 
-        
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
     }
 
 
     public class ShortcutCreator
     {
-        public static void CreateShortcut(string shortcutName, string filePath, string imagePath)
+        public static void CreateShortcut(string shortcutName, string filePath, string imagePath, string arguments)
         {
             try
             {
@@ -141,7 +151,7 @@ namespace psOFF_GUI
 
                 // Set the target path and arguments for the shortcut
                 shortcut.TargetPath = "cmd.exe";
-                shortcut.Arguments = $"/k cd /d \"{Environment.CurrentDirectory}\" & .\\emulator.exe --file=\"{filePath}\"";
+                shortcut.Arguments = $"/k cd /d \"{Environment.CurrentDirectory}\" & .\\emulator.exe --file=\"{filePath}\"" + " " + arguments;
 
                 //Add Icon to shortcut
                 string iconPath = System.IO.Path.GetDirectoryName(imagePath);

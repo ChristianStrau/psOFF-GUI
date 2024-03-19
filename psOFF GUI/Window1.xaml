@@ -30,7 +30,6 @@
             </Border>
 
             <!-- TextBlock -->
-            <TextBlock Name="testText" Foreground="White" Margin="20" Text="Your Text Here"/>
 
             <!-- Buttons -->
             <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left">
@@ -85,6 +84,7 @@
                     </Button.Effect>
                 </Button>
             </StackPanel>
+            <TextBox x:Name="inArgs" Grid.Column="1" HorizontalAlignment="Left" Margin="0,79,0,0" TextWrapping="Wrap" Text="Enter arguments" VerticalAlignment="Top" Width="150" TextChanged="TextBox_TextChanged"/>
         </Grid>
     </Grid>
 </Window>
