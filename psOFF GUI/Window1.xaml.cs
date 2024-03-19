@@ -155,7 +155,7 @@ namespace psOFF_GUI
                         // cut Bitmap to targeted resolution
                         g.DrawImage(originalBitmap, 0, 0, 256, 256);
                     }
-                    Icon.FromHandle(resizedBitmap.GetHicon()).Save(stream); //save bitmap with Ico format
+                    Icon.FromHandle(resizedBitmap.GetHicon()).Save(stream); //save bitmap with Ico format.
                 }
                 shortcut.IconLocation = iconPath; //Apply Icon
 
