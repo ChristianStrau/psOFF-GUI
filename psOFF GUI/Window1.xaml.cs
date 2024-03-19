@@ -14,6 +14,7 @@ using System.Windows.Shapes;
 using System.IO;
 using System.Diagnostics;
 using IWshRuntimeLibrary;
+using System.Drawing;
 
 namespace psOFF_GUI
 {
@@ -44,7 +45,7 @@ namespace psOFF_GUI
                     // Construct the path to the image dynamically based on the provided file path
                     string directoryPath = System.IO.Path.GetDirectoryName(filePath);
                     imagePath = System.IO.Path.Combine(directoryPath, "sce_sys", "icon0.png");
-                    testText.Text = imagePath;
+                    
                     // Set the source of the Image
                     if (System.IO.File.Exists(imagePath))
                     {
@@ -76,6 +77,7 @@ namespace psOFF_GUI
         {
             if (!string.IsNullOrEmpty(imagePath)) // Check if imagePath is not null or empty
             {
+                testText.Text = imagePath;
                 ShortcutCreator.CreateShortcut("test", filePath, imagePath); // Pass the imagePath to CreateShortcut method
             }
             else
@@ -124,7 +126,7 @@ namespace psOFF_GUI
 
     public class ShortcutCreator
     {
-        public static void CreateShortcut(string shortcutName, string filePath, string iconPath)
+        public static void CreateShortcut(string shortcutName, string filePath, string imagePath)
         {
             try
             {
@@ -140,12 +142,29 @@ namespace psOFF_GUI
                 // Set the target path and arguments for the shortcut
                 shortcut.TargetPath = "cmd.exe";
                 shortcut.Arguments = $"/k cd /d \"{Environment.CurrentDirectory}\" & .\\emulator.exe --file=\"{filePath}\"";
-                shortcut.IconLocation = iconPath;
+
+                //Add Icon to shortcut
+                string iconPath = System.IO.Path.GetDirectoryName(imagePath);
+                iconPath = System.IO.Path.Combine(iconPath, "icon1.ico"); //get Destination Path
+                using (FileStream stream = System.IO.File.OpenWrite(iconPath))
+                {
+                    Bitmap originalBitmap = (Bitmap)System.Drawing.Image.FromFile(imagePath); //Bitmap of the Image
+                    Bitmap resizedBitmap = new Bitmap(256, 256); //Empty Bitmap for the Resolution
+                    using (Graphics g = Graphics.FromImage(resizedBitmap)) // Combine Bitmaps
+                    {
+                        // cut Bitmap to targeted resolution
+                        g.DrawImage(originalBitmap, 0, 0, 256, 256);
+                    }
+                    Icon.FromHandle(resizedBitmap.GetHicon()).Save(stream); //save bitmap with Ico format
+                }
+                shortcut.IconLocation = iconPath; //Apply Icon
+
                 // Set the description for the shortcut
                 shortcut.Description = "Shortcut to run emulator with specified file";
 
                 // Save the shortcut
                 shortcut.Save();
+
             }
             catch (Exception ex)
             {
