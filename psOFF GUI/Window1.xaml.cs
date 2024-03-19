@@ -1,18 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Diagnostics;
+using System.IO;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using System.IO;
-using System.Diagnostics;
 using IWshRuntimeLibrary;
 
 namespace psOFF_GUI
@@ -21,69 +12,63 @@ namespace psOFF_GUI
     {
         private string filePath;
         private string imagePath;
+
         public Window1(string filePath)
         {
             InitializeComponent();
             // Set the filePath property
             this.filePath = filePath;
-            imagePath = SetImageSource();
             // Call the method to set the image source
-            SetImageSource();
+            imagePath = SetImageSource();
         }
 
-        private string SetImageSource() // Updated to return the image path
+        private string SetImageSource()
         {
-            string imagePath = null; // Initialize imagePath variable
-            testText.Text = "0";
-            // Check if filePath is not empty
-            if (!string.IsNullOrEmpty(filePath))
+            string imagePath = null;
+            try
             {
-                testText.Text = "1";
-                try
+                // Construct the path to the image dynamically based on the provided file path
+                string directoryPath = Path.GetDirectoryName(filePath);
+                imagePath = Path.Combine(directoryPath, "sce_sys", "icon0.png");
+
+                // Debugging output to verify intermediate values
+                Debug.WriteLine("Constructed Image Path: " + imagePath);
+
+                // Set the source of the Image
+                if (System.IO.File.Exists(imagePath))
                 {
-                    // Construct the path to the image dynamically based on the provided file path
-                    string directoryPath = System.IO.Path.GetDirectoryName(filePath);
-                    imagePath = System.IO.Path.Combine(directoryPath, "sce_sys", "icon0.png");
-                    testText.Text = imagePath;
-                    // Set the source of the Image
-                    if (System.IO.File.Exists(imagePath))
-                    {
-                        iconImage.Source = new BitmapImage(new Uri(imagePath));
-                    }
-                    else
-                    {
-                        // Handle case where image file does not exist
-                        MessageBox.Show("Image file not found.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                    }
+                    iconImage.Source = new BitmapImage(new Uri(imagePath));
                 }
-                catch (Exception ex)
+                else
                 {
-                    testText.Text = "2";
-                    // Handle any exceptions
-                    MessageBox.Show($"Error: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    // Handle case where image file does not exist
+                    MessageBox.Show("Image file not found.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
-            return imagePath; // Return the imagePath
-
+            catch (Exception ex)
+            {
+                // Handle any exceptions
+                MessageBox.Show($"Error: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            return imagePath;
         }
 
-            private void Button_Click(object sender, RoutedEventArgs e)
+        private void Button_Click(object sender, RoutedEventArgs e)
         {
             RunEmulator(filePath);
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            if (!string.IsNullOrEmpty(imagePath)) // Check if imagePath is not null or empty
+            if (!string.IsNullOrEmpty(imagePath))
             {
-                ShortcutCreator.CreateShortcut("test", filePath, imagePath); // Pass the imagePath to CreateShortcut method
+                ShortcutCreator.CreateShortcut("test", filePath, imagePath);
             }
             else
             {
                 MessageBox.Show("Image path is empty.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-
 
         public static void RunEmulator(string filePath)
         {
@@ -117,10 +102,7 @@ namespace psOFF_GUI
                 Console.WriteLine("An error occurred: " + ex.Message);
             }
         }
-
-        
     }
-
 
     public class ShortcutCreator
     {
@@ -135,7 +117,7 @@ namespace psOFF_GUI
                 WshShell shell = new WshShell();
 
                 // Create the shortcut object
-                IWshShortcut shortcut = (IWshShortcut)shell.CreateShortcut(System.IO.Path.Combine(desktopPath, shortcutName + ".lnk"));
+                IWshShortcut shortcut = (IWshShortcut)shell.CreateShortcut(Path.Combine(desktopPath, shortcutName + ".lnk"));
 
                 // Set the target path and arguments for the shortcut
                 shortcut.TargetPath = "cmd.exe";
@@ -153,8 +135,4 @@ namespace psOFF_GUI
             }
         }
     }
-
 }
-
-
-
