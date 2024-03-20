@@ -9,21 +9,22 @@ namespace psOFF_GUI
 {
     public class GetTitle
     {
-        private static string paramPath;
+        public static string paramPath;
 
-        public static void main(string directoryPath)
+        public static string getTitle(string filePath)
         {
-            Console.WriteLine(directoryPath);
-            GetParamPath(directoryPath);
-            ReadParam(paramPath);
+            Console.WriteLine(filePath);
+            paramPath = GetParamPath(filePath);
+            return ReadParam(paramPath);
         }
 
-        public static void GetParamPath(string directoryPath)
+        private static string GetParamPath(string directoryPath)
         {
             paramPath = Path.Combine(directoryPath, "sce_sys", "param.sfo");
+            return paramPath;
         }
 
-        public static void ReadParam(string paramPath)
+        public static string ReadParam(string paramPath)
         {
             if (File.Exists(paramPath))
             {
@@ -49,6 +50,7 @@ namespace psOFF_GUI
 
                         // Output the extracted title
                         Console.WriteLine("Title: " + title);
+                        return title;
                     }
                 }
                 catch (Exception ex)
@@ -60,6 +62,8 @@ namespace psOFF_GUI
             {
                 Console.WriteLine("Error: param.sfo file not found");
             }
+
+            return "Failed";
         }
     }
 }
