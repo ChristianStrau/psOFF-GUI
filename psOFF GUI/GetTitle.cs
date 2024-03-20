@@ -15,7 +15,7 @@ namespace psOFF_GUI
         {
             Console.WriteLine(filePath);
             paramPath = GetParamPath(Path.GetDirectoryName(filePath));
-            return ReadParam(paramPath);
+            return ExtractTitle(ReadParam(paramPath));
         }
 
         private static string GetParamPath(string directoryPath)
@@ -46,26 +46,41 @@ namespace psOFF_GUI
                         short titleLength = reader.ReadInt16();
 
                         // Read the title string
-                        string title = System.Text.Encoding.ASCII.GetString(reader.ReadBytes(titleLength));
+                        byte[] titleBytes = reader.ReadBytes(titleLength);
 
-                        // Output the extracted title
-                        Console.WriteLine("Title: " + title);
+                        // Convert the title bytes to ASCII string
+                        string title = System.Text.Encoding.ASCII.GetString(titleBytes);
+
                         return title;
                     }
                 }
                 catch (Exception ex)
                 {
-                    return "Error";
                     Console.WriteLine("Error: " + ex.Message);
+                    return "Error";
                 }
             }
             else
             {
-                return paramPath;
                 Console.WriteLine("Error: param.sfo file not found");
+                return "File not found";
+            }
+        }
+
+        private static string ExtractTitle(string paramInfo)
+        {
+            string[] attributes = paramInfo.Split('?');
+
+            foreach (string attribute in attributes)
+            {
+                if (attribute.StartsWith("TITLE:"))
+                {
+                    return attribute.Substring(6).Trim();
+                }
             }
 
-            return "Failed";
+            return "Title not found";
         }
     }
 }
+
