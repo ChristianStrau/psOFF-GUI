@@ -22,6 +22,7 @@ namespace psOFF_GUI
     {
         private string filePath;
         private string imagePath;
+        string directoryPath = "schlecht";
         public Window1(string filePath)
         {
             InitializeComponent();
@@ -30,6 +31,7 @@ namespace psOFF_GUI
             imagePath = SetImageSource();
             // Call the method to set the image source
             SetImageSource();
+            GetTitle.main(directoryPath);
         }
 
         private string SetImageSource() // Updated to return the image path
