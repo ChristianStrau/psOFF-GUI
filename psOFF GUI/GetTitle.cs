@@ -14,7 +14,7 @@ namespace psOFF_GUI
         public static string getTitle(string filePath)
         {
             Console.WriteLine(filePath);
-            paramPath = GetParamPath(filePath);
+            paramPath = GetParamPath(Path.GetDirectoryName(filePath));
             return ReadParam(paramPath);
         }
 
@@ -55,11 +55,13 @@ namespace psOFF_GUI
                 }
                 catch (Exception ex)
                 {
+                    return "Error";
                     Console.WriteLine("Error: " + ex.Message);
                 }
             }
             else
             {
+                return paramPath;
                 Console.WriteLine("Error: param.sfo file not found");
             }
 
