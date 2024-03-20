@@ -84,7 +84,8 @@
                     </Button.Effect>
                 </Button>
             </StackPanel>
-            <TextBox x:Name="inArgs" Grid.Column="1" HorizontalAlignment="Left" Margin="0,79,0,0" TextWrapping="Wrap" Text="Enter arguments" VerticalAlignment="Top" Width="150" TextChanged="TextBox_TextChanged"/>
+            <TextBox x:Name="inArgs" Grid.Column="1" HorizontalAlignment="Left" Margin="0,87,0,0" TextWrapping="Wrap" Text="Enter arguments" VerticalAlignment="Top" Width="150" TextChanged="TextBox_TextChanged"/>
+            <TextBox x:Name="gameName" Grid.Column="1" HorizontalAlignment="Left" Margin="0,64,0,0" TextWrapping="Wrap" Text="Name" VerticalAlignment="Top" Width="150" TextChanged="TextBox_TextChanged"/>
         </Grid>
     </Grid>
 </Window>

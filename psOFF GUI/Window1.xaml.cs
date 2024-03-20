@@ -84,7 +84,8 @@ namespace psOFF_GUI
                 {
                     args = inArgs.Text;
                 }
-                ShortcutCreator.CreateShortcut("test", filePath, imagePath, args); // Pass the imagePath to CreateShortcut method
+                
+                ShortcutCreator.CreateShortcut(gameName.Text, filePath, imagePath, args); // Pass the imagePath to CreateShortcut method
             }
             else
             {
